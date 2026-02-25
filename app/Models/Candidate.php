@@ -15,7 +15,7 @@ class Candidate extends Model
     ];
 
     protected $casts = [
-        'cv' => 'string',
+        'cv' => 'array',
     ];
 
     public function skills()

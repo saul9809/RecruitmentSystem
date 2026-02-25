@@ -11,6 +11,7 @@ class CandidateExperience extends Model
         'position',
         'years',
         'description',
+        'candidate_id',
     ];
 
     public function candidate()

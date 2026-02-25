@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-
-        Schema::create('candidate_profile_score', function (Blueprint $table) {
+        Schema::create('profile_requirements', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('candidate_id')->constrained()->cascadeOnDelete();
             $table->foreignId('profile_id')->constrained()->cascadeOnDelete();
-            $table->float('score_percentage'); // 0–100
-            $table->json('details')->nullable(); // desglose IA
+            $table->string('type');  // skill, experiencia, educacion, keyword
+            $table->string('key'); // laravel, ingles, años_experiencia
+            $table->string('value')->nullable(); // avanzado, B2, 3
+            $table->integer('weight')->default(10); // peso para IA
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('candidate_profile_score');
+        Schema::dropIfExists('profile_requirements');
     }
 };

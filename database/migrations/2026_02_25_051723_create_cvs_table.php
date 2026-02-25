@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('candidate_experience', function (Blueprint $table) {
+        Schema::create('cvs', function (Blueprint $table) {
             $table->id();
-            $table->string('company_name')->nullable();
-            $table->string('position')->nullable();
-            $table->integer('years')->nullable();
-            $table->text('description')->nullable();
-
+            $table->json('cv_data'); // -- Datos jsonb con una estructura de curriculo vitae de cuba 
             $table->timestamps();
         });
     }
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('candidate_expirience');
+        Schema::dropIfExists('cv');
     }
 };

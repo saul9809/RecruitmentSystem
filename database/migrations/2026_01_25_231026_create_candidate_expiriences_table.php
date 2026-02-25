@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cv', function (Blueprint $table) {
+        Schema::create('candidate_experiences', function (Blueprint $table) {
             $table->id();
-            $table->json('cv_data');
+            $table->string('company_name')->nullable();
+            $table->string('position')->nullable();
+            $table->integer('years')->nullable();
+            $table->text('description')->nullable();
+            $table->foreignId('candidate_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -23,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cv');
+        Schema::dropIfExists('candidate_expiriences');
     }
 };
