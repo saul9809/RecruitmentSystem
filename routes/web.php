@@ -14,19 +14,20 @@ Route::get('/', function () {
 })->name('home');
 // -- Site Routes --
 
+// -- Dashboard Route --
+Route::get('dashboard', function () {
+    return Inertia::render('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    // -- Dashboard Route --
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
+// --Candidates Route --
+Route::get('candidates', [CandidateController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('candidate.index');
 
-    // --Candidates Route --
-    Route::get('candidates', [CandidateController::class, 'index'])->name('candidate.index');
-});
 
 
 // -- Functions Routes --
-Route::post('/agent', [AgentController::class, 'callAgent'])->name('invoke-agent');
+Route::post('/invoke-agent', [AgentController::class, 'invoke'])->name('invoke-agent');
+
 
 require __DIR__ . '/settings.php';

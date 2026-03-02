@@ -4,6 +4,7 @@ namespace App\Ai\Agents;
 
 use App\Models\User;
 use App\Ai\Tools\CandidateTool;
+use Laravel\Ai\Concerns\RemembersConversations;
 use Laravel\Ai\Contracts\Agent;
 use Laravel\Ai\Contracts\Conversational;
 use Laravel\Ai\Contracts\HasTools;
@@ -13,8 +14,12 @@ use Stringable;
 
 class RecruitmentAssistant implements Agent, Conversational, HasTools
 {
-    use Promptable;
-    public function __construct(public User $user) {}
+    use Promptable, RemembersConversations;
+
+    public function __construct(public User $user)
+    {
+        $this->user = $user;
+    }
 
     /**
      * Get the instructions that the agent should follow.
