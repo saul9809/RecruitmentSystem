@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a1a7f426c4da207bdaf94d6e09bb438c",
+    "content-hash": "3135777decc95d45968a4a8ab42510e8",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1229,28 +1229,28 @@
         },
         {
             "name": "laravel/ai",
-            "version": "v0.2.1",
+            "version": "v0.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/ai.git",
-                "reference": "7487f1208ba95a7d32e1609abb1b7f7a801a74fe"
+                "reference": "467196be87c9cc2ed1f381deffbe24371e89ba4f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/ai/zipball/7487f1208ba95a7d32e1609abb1b7f7a801a74fe",
-                "reference": "7487f1208ba95a7d32e1609abb1b7f7a801a74fe",
+                "url": "https://api.github.com/repos/laravel/ai/zipball/467196be87c9cc2ed1f381deffbe24371e89ba4f",
+                "reference": "467196be87c9cc2ed1f381deffbe24371e89ba4f",
                 "shasum": ""
             },
             "require": {
-                "illuminate/console": "^12.0",
-                "illuminate/container": "^12.0",
-                "illuminate/contracts": "^12.0",
-                "illuminate/filesystem": "^12.0",
-                "illuminate/json-schema": "^12.0",
-                "illuminate/support": "^12.0",
+                "illuminate/console": "^12.0|^13.0",
+                "illuminate/container": "^12.0|^13.0",
+                "illuminate/contracts": "^12.0|^13.0",
+                "illuminate/filesystem": "^12.0|^13.0",
+                "illuminate/json-schema": "^12.0|^13.0",
+                "illuminate/support": "^12.0|^13.0",
                 "laravel/prompts": "^0.3.6",
                 "laravel/serializable-closure": "^2.0",
-                "php": "^8.4",
+                "php": "^8.3",
                 "prism-php/prism": "^0.99.0"
             },
             "require-dev": {
@@ -1291,7 +1291,7 @@
                 "issues": "https://github.com/laravel/ai/issues",
                 "source": "https://github.com/laravel/ai"
             },
-            "time": "2026-02-19T14:27:55+00:00"
+            "time": "2026-02-26T22:55:23+00:00"
         },
         {
             "name": "laravel/fortify",
