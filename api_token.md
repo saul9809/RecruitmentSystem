@@ -1,1 +1,3 @@
-groq = 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
+groq = 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
+
+# API Token Documentation

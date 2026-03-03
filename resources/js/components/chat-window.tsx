@@ -108,7 +108,7 @@ export default function ChatWindow() {
                 htmlFor={toggleId}
                 className="fixed bottom-6 right-6 z-40 inline-flex h-12 items-center gap-2 rounded-full bg-slate-900 px-4 text-sm font-semibold text-white shadow-lg transition hover:bg-slate-800"
             >
-                Chat
+                Consultor
                 <span className="inline-flex h-2 w-2 rounded-full bg-emerald-400" />
             </label>
 

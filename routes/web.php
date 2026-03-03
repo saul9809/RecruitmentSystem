@@ -5,7 +5,8 @@ use Inertia\Inertia;
 use Laravel\Fortify\Features;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\AgentController;
-
+use Illuminate\Http\Request;
+use App\Ai\Agents\RecruitmentAssistant;
 
 Route::get('/', function () {
     return Inertia::render('welcome', [
