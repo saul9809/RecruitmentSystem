@@ -13,12 +13,12 @@ return [
     |
     */
 
-    'default' => 'openai',
-    'default_for_images' => 'openai',
-    'default_for_audio' => 'openai',
-    'default_for_transcription' => 'openai',
-    'default_for_embeddings' => 'openai',
-    'default_for_reranking' => 'openai',
+    'default' => 'groq',
+    'default_for_images' => 'groq',
+    'default_for_audio' => 'groq',
+    'default_for_transcription' => 'groq',
+    'default_for_embeddings' => 'groq',
+    'default_for_reranking' => 'groq',
 
     /*
     |--------------------------------------------------------------------------
@@ -82,11 +82,13 @@ return [
         'gemini' => [
             'driver' => 'gemini',
             'key' => env('GEMINI_API_KEY'),
+            'url' => env('GEMINI_BASE_URL'),
         ],
 
         'groq' => [
             'driver' => 'groq',
             'key' => env('GROQ_API_KEY'),
+            'url' => env('GROQ_BASE_URL'),
         ],
 
         'jina' => [
@@ -107,8 +109,7 @@ return [
 
         'openai' => [
             'driver' => 'openai',
-            'key' => env('OPENAI_API_KEY'),
-            'url' => env('OPENAI_BASE_URL'),
+            'key' => env('OPENAI_API_KEY')
         ],
 
         'openrouter' => [

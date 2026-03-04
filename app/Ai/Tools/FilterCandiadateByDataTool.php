@@ -6,11 +6,10 @@ use App\Models\Candidate;
 use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Laravel\Ai\Contracts\Tool;
 use Laravel\Ai\Tools\Request;
-use Illuminate\Support\Facades\DB;
 use Stringable;
 
 
-class CandidateTool implements Tool
+class FilterCandiadateByDataTool implements Tool
 {
     /**
      * Get the description of the tool's purpose.
@@ -23,12 +22,11 @@ class CandidateTool implements Tool
     /**
      * Execute the tool.
      */
+
     public function handle(Request $request): Stringable|string
     {
         $value = $request['candidate'] ?? $request['name'] ?? $request['email'] ?? $request['phone'] ?? null;
-        // -- Variable de depuración para verificar el valor recibido
-        dump($value);
-        DB::enableQueryLog();
+
         $candidates = Candidate::query()
             ->when($value, function ($query) use ($value) {
                 $query->where(function ($q) use ($value) {
@@ -38,9 +36,7 @@ class CandidateTool implements Tool
                 });
             })
             ->get();
-        $log = DB::getQueryLog();
-        // -- Variable de depuración para verificar las consultas ejecutadas
-        dd($log);
+
         return $candidates;
     }
 
@@ -50,7 +46,10 @@ class CandidateTool implements Tool
     public function schema(JsonSchema $schema): array
     {
         return [
-            'candidate' => $schema->string()->nullable()->description('El nombre, email o telefono del candidato a buscar'),
+            'candidate' => $schema->string()->nullable()->description('Nombre, email o teléfono del candidato a buscar'),
+            'name'      => $schema->string()->nullable()->description('Nombre del candidato (LIKE)'),
+            'email'     => $schema->string()->nullable()->description('Correo del candidato (LIKE)'),
+            'phone'     => $schema->string()->nullable()->description('Teléfono del candidato (LIKE)'),
         ];
     }
 }

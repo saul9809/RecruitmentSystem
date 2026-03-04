@@ -38,7 +38,7 @@ function ChatBubble({ message }: { message: ChatMessage }) {
         <div
             className={
                 isUser
-                    ? 'ml-auto w-full max-w-[75%]'
+                    ? 'ml-auto h-full max-w-[75%]'
                     : 'mr-auto w-full max-w-[75%]'
             }
         >
@@ -108,7 +108,7 @@ export default function ChatWindow() {
                 htmlFor={toggleId}
                 className="fixed bottom-6 right-6 z-40 inline-flex h-12 items-center gap-2 rounded-full bg-slate-900 px-4 text-sm font-semibold text-white shadow-lg transition hover:bg-slate-800"
             >
-                Consultor
+                Asistente de Reclutamiento
                 <span className="inline-flex h-2 w-2 rounded-full bg-emerald-400" />
             </label>
 
@@ -132,10 +132,10 @@ export default function ChatWindow() {
                         />
                         <button
                             onClick={handleSend}
-                            type="button"
+                            type="submit"
                             className="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white"
                         >
-                            Consultar
+                            Enviar
                         </button>
                     </div>
                 </div>
