@@ -27,5 +27,4 @@ Route::get('candidates', [CandidateController::class, 'index'])
 // -- Functions Routes --
 Route::post('/invoke-agent', [AgentController::class, 'invoke'])->name('invoke-agent');
 
-
 require __DIR__ . '/settings.php';
