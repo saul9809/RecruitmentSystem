@@ -10,7 +10,7 @@ type ChatMessage = {
 
 
 
-function ChatHeader({ toggleId }: { toggleId: string }) {
+function ChatHeader({ toggleId }: { toggleId: string }) { 
     return (
         <header className="flex items-center justify-between border-b border-slate-200 bg-white/80 px-5 py-4 backdrop-blur">
             <div>
