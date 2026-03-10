@@ -13,12 +13,12 @@ return [
     |
     */
 
-    'default' => 'ollama',
-    'default_for_images' => 'ollama',
-    'default_for_audio' => 'ollama',
-    'default_for_transcription' => 'ollama',
-    'default_for_embeddings' => 'ollama',
-    'default_for_reranking' => 'ollama',
+    'default' => 'deepseek',
+    'default_for_images' => 'deepseek',
+    'default_for_audio' => 'deepseek',
+    'default_for_transcription' => 'deepseek',
+    'default_for_embeddings' => 'deepseek',
+    'default_for_reranking' => 'deepseek',
 
     /*
     |--------------------------------------------------------------------------
@@ -72,6 +72,7 @@ return [
         'deepseek' => [
             'driver' => 'deepseek',
             'key' => env('DEEPSEEK_API_KEY'),
+            'url' => env('DEEPSEEK_BASE_URL'),
         ],
 
         'eleven' => [
