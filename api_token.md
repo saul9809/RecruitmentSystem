@@ -1,4 +1,5 @@
 groq = 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
-gamini = AIzaSyC00wP_OuvxNegx3FhilRRSQf4Rml2Fs6g
+gamini = AIzaSyBUIZ0Jg-pOUtyhdansasWrBUxh73PTNhY
+ollama = 3a1eea33dff048cab023348c1ee0cad7.zCJ7UcqEIhg7jjGuVagGaTEY
 
 # API Token Documentation
