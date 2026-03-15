@@ -13,12 +13,12 @@ return [
     |
     */
 
-    'default' => 'groq',
-    'default_for_images' => 'groq',
-    'default_for_audio' => 'groq',
-    'default_for_transcription' => 'groq',
-    'default_for_embeddings' => 'groq',
-    'default_for_reranking' => 'groq',
+    'default' => 'openai',
+    'default_for_images' => 'openai',
+    'default_for_audio' => 'openai',
+    'default_for_transcription' => 'openai',
+    'default_for_embeddings' => 'openai',
+    'default_for_reranking' => 'openai  ',
 
     /*
     |--------------------------------------------------------------------------
@@ -72,6 +72,7 @@ return [
         'deepseek' => [
             'driver' => 'deepseek',
             'key' => env('DEEPSEEK_API_KEY'),
+            'url' => env('DEEPSEEK_BASE_URL'),
         ],
 
         'eleven' => [
@@ -103,13 +104,14 @@ return [
 
         'ollama' => [
             'driver' => 'ollama',
-            'key' => env('OLLAMA_API_KEY', ''),
-            'url' => env('OLLAMA_BASE_URL', 'http://localhost:11434'),
+            'key' => env('OLLAMA_API_KEY'),
+            'url' => env('OLLAMA_BASE_URL'),
         ],
 
         'openai' => [
             'driver' => 'openai',
-            'key' => env('OPENAI_API_KEY')
+            'key' => env('OPENAI_API_KEY'),
+            'url' => env('OPENAI_BASE_URL'),
         ],
 
         'openrouter' => [

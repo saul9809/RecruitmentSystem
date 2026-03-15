@@ -1,16 +1,15 @@
+import DOMPurify from "dompurify"; // npm i dompurify
 import { parse } from "marked";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type ChatMessage = {
-    id?: number;
-    role: 'user' | 'assistant';
+    id: number;
+    role: "user" | "assistant";
     text: string;
     time: string;
 };
 
-
-
-function ChatHeader({ toggleId }: { toggleId: string }) { 
+function ChatHeader({ toggleId }: { toggleId: string }) {
     return (
         <header className="flex items-center justify-between border-b border-slate-200 bg-white/80 px-5 py-4 backdrop-blur">
             <div>
@@ -32,32 +31,21 @@ function ChatHeader({ toggleId }: { toggleId: string }) {
 }
 
 function ChatBubble({ message }: { message: ChatMessage }) {
-    const isUser = message.role === 'user';
-    const messageHtml = parse(message?.text);
+    const isUser = message.role === "user";
+    const html = DOMPurify.sanitize(parse(message.text) as string);
+
     return (
-        <div
-            className={
-                isUser
-                    ? 'ml-auto h-full max-w-[75%]'
-                    : 'mr-auto w-full max-w-[75%]'
-            }
-        >
+        <div className={isUser ? "ml-auto h-full max-w-[75%]" : "mr-auto w-full max-w-[75%]"}>
             <div
                 className={
                     isUser
-                        ? 'rounded-2xl rounded-tr-sm bg-slate-900 px-4 py-3 text-sm text-white shadow'
-                        : 'rounded-2xl rounded-tl-sm bg-white px-4 py-3 text-sm text-slate-700 shadow'
+                        ? "rounded-2xl rounded-tr-sm bg-slate-900 px-4 py-3 text-sm text-white shadow"
+                        : "rounded-2xl rounded-tl-sm bg-white px-4 py-3 text-sm text-slate-700 shadow"
                 }
             >
-                <div dangerouslySetInnerHTML={{ __html: messageHtml }} />
+                <div dangerouslySetInnerHTML={{ __html: html }} />
             </div>
-            <p
-                className={
-                    isUser
-                        ? 'mt-1 text-right text-xs text-slate-400'
-                        : 'mt-1 text-xs text-slate-400'
-                }
-            >
+            <p className={isUser ? "mt-1 text-right text-xs text-slate-400" : "mt-1 text-xs text-slate-400"}>
                 {message.time}
             </p>
         </div>
@@ -65,41 +53,80 @@ function ChatBubble({ message }: { message: ChatMessage }) {
 }
 
 export default function ChatWindow() {
-    const toggleId = 'chat-toggle';
-    const [message, setMessage] = useState('');
-    const [responses, setResponses] = useState<ChatMessage[]>();
+    const toggleId = "chat-toggle";
+    const [message, setMessage] = useState("");
+    const [responses, setResponses] = useState<ChatMessage[]>([]); // <-- inicializado
+    const [loading, setLoading] = useState(false);
+    const endRef = useRef<HTMLDivElement>(null);
 
-    // -- Fetch de api agent
-    function handleSend() {
-        setResponses((prev) => [
-            ...(prev || []),
-            {
-                id: prev ? prev.length + 1 : 1,
-                role: 'user',
-                text: message,
-                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            }
-        ])
-        fetch('invoke-agent', {
-            method: 'POST',
-            body: JSON.stringify({ message }),
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
-            }
-        }).then(res => res.text()).then(data => {
-            setResponses((prev) => [
-                ...(prev || []),
-                {
-                    id: prev ? prev.length + 1 : 1,
-                    role: 'assistant',
-                    text: data,
-                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                }
-            ])
-        });
+    // auto‑scroll al último mensaje
+    useEffect(() => {
+        endRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [responses]);
+
+    const now = () =>
+        new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+    async function handleSend() {
+        const text = message.trim();
+        if (!text || loading) return;
+
+        // Añade mensaje del usuario
+        const userMsg: ChatMessage = {
+            id: responses.length + 1,
+            role: "user",
+            text,
+            time: now(),
+        };
+        setResponses((prev) => [...prev, userMsg]);
+
+        // limpia input y bloquea botón
+        setMessage("");
+        setLoading(true);
+
+        try {
+            const res = await fetch("/invoke-agent", {
+                method: "POST",
+                body: JSON.stringify({ message: text }),
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN":
+                        document
+                            .querySelector('meta[name="csrf-token"]')
+                            ?.getAttribute("content") || "",
+                },
+            });
+
+            const data = await res.text();
+            const assistantMsg: ChatMessage = {
+                id: userMsg.id + 1,
+                role: "assistant",
+                text: data || "_(Sin contenido)_", // fallback si vino vacío
+                time: now(),
+            };
+            setResponses((prev) => [...prev, assistantMsg]);
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (err) {
+            const assistantMsg: ChatMessage = {
+                id: userMsg.id + 1,
+                role: "assistant",
+                text:
+                    "⚠️ Ocurrió un error al procesar tu solicitud. Intenta de nuevo o contacta a soporte.",
+                time: now(),
+            };
+            setResponses((prev) => [...prev, assistantMsg]);
+        } finally {
+            setLoading(false);
+        }
     }
 
+    // Enter = enviar | Shift+Enter = salto de línea (si luego cambias a <textarea>)
+    function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            handleSend();
+        }
+    }
 
     return (
         <div className="relative">
@@ -116,9 +143,10 @@ export default function ChatWindow() {
                 <ChatHeader toggleId={toggleId} />
 
                 <div className="max-h-90 space-y-4 overflow-y-auto px-5 py-6">
-                    {responses?.map((message) => (
-                        <ChatBubble key={message.id} message={message} />
+                    {responses.map((m) => (
+                        <ChatBubble key={m.id} message={m} />
                     ))}
+                    <div ref={endRef} />
                 </div>
 
                 <div className="border-t border-slate-200 bg-white px-5 py-4">
@@ -126,16 +154,19 @@ export default function ChatWindow() {
                         <input
                             type="text"
                             value={message}
-                            onInput={e => setMessage(e.currentTarget.value)}
-                            placeholder="Candidatos Top"
-                            className="flex-1 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-700 outline-none"
+                            onInput={(e) => setMessage((e.target as HTMLInputElement).value)}
+                            onKeyDown={handleKeyDown}
+                            placeholder={loading ? "Generando respuesta…" : "Escribe tu mensaje"}
+                            className="flex-1 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-700 outline-none disabled:opacity-60"
+                            disabled={loading}
                         />
                         <button
                             onClick={handleSend}
-                            type="submit"
-                            className="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white"
+                            type="button"
+                            disabled={loading}
+                            className="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
                         >
-                            Enviar
+                            {loading ? "Enviando…" : "Enviar"}
                         </button>
                     </div>
                 </div>

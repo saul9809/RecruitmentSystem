@@ -1,5 +1,6 @@
 import { Link } from '@inertiajs/react';
 import { BookOpen, FileUser, Folder, LayoutGrid } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -16,19 +17,6 @@ import { dashboard } from '@/routes';
 import type { NavItem } from '@/types';
 import AppLogo from './app-logo';
 
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: dashboard(),
-        icon: LayoutGrid,
-    },
-    {
-        title: 'Gestion de Candidatos',
-        href: '/candidates',
-        icon: FileUser,
-    },
-];
-
 const footerNavItems: NavItem[] = [
     {
         title: 'Repository',
@@ -43,6 +31,20 @@ const footerNavItems: NavItem[] = [
 ];
 
 export function AppSidebar() {
+    const { t } = useTranslation('common');
+
+    const mainNavItems: NavItem[] = [
+        {
+            title: t('dashboard'),
+            href: dashboard(),
+            icon: LayoutGrid,
+        },
+        {
+            title: t('candidates'),
+            href: '/candidates',
+            icon: FileUser,
+        },
+    ];
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>

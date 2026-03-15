@@ -1,5 +1,6 @@
 import { Head } from '@inertiajs/react';
 import ChatWindow from '@/components/chat-window';
+import { DataTable } from '@/components/data-table';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem } from '@/types';
 const breadcrumbs: BreadcrumbItem[] = [
@@ -14,7 +15,7 @@ export default function indexCandidates() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Candidatos" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                Sitio Gestion del Personal
+                <DataTable data={[]} />
                 <ChatWindow />
             </div>
         </AppLayout>
