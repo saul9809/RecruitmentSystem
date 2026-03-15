@@ -13,12 +13,12 @@ return [
     |
     */
 
-    'default' => 'deepseek',
-    'default_for_images' => 'deepseek',
-    'default_for_audio' => 'deepseek',
-    'default_for_transcription' => 'deepseek',
-    'default_for_embeddings' => 'deepseek',
-    'default_for_reranking' => 'deepseek',
+    'default' => 'openai',
+    'default_for_images' => 'openai',
+    'default_for_audio' => 'openai',
+    'default_for_transcription' => 'openai',
+    'default_for_embeddings' => 'openai',
+    'default_for_reranking' => 'openai  ',
 
     /*
     |--------------------------------------------------------------------------
@@ -110,7 +110,8 @@ return [
 
         'openai' => [
             'driver' => 'openai',
-            'key' => env('OPENAI_API_KEY')
+            'key' => env('OPENAI_API_KEY'),
+            'url' => env('OPENAI_BASE_URL'),
         ],
 
         'openrouter' => [
