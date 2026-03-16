@@ -29,7 +29,8 @@
     "assign_reviewer": "Asignar revisor",
     "select_type": "Seleccionar tipo",
     "pending_analysis": "Pendiente a Analizar",
-    "dashboard": "DashBoard",
+    "dashboard": "Dashboard",
     "settings": "Configuraciones",
-    "profile": "Perfil"
+    "profile": "Perfil",
+    "platform": "Navegación"
 }

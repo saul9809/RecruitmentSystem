@@ -8,12 +8,12 @@ interface AppLogoIconProps {
 
 export default function AppLogoIcon({
     className,
-    width = 40,
-    height = 42
+    width = 56,
+    height = 58
 }: AppLogoIconProps) {
     return (
         <img
-            src="/logo.png"
+            src="/logo_2.png"
             alt="App Logo"
             width={width}
             height={height}

@@ -3,12 +3,14 @@ import ChatWindow from '@/components/chat-window';
 import { DataTable } from '@/components/data-table';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem } from '@/types';
+
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Gestión de Candidatos',
         href: '/candidates',
     },
 ];
+
 
 export default function indexCandidates() {
     return (
