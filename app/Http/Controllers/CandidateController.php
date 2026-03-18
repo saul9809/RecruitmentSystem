@@ -4,13 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Candidate;
+use Inertia\Inertia;
 
 class CandidateController extends Controller
 {
     public function index()
     {
-        $candidates = Candidate::all();
-        return inertia('Candidates/Index', compact('candidates'));
+        $q = Candidate::query()
+            ->from('candidates AS c')
+            ->leftJoin('candidate_stage_history AS csh', 'csh.candidate_id', '=', 'c.id')
+            ->leftJoin('candidate_experiences AS ce', 'ce.candidate_id', '=', 'c.id')
+            ->select('c.*', 'csh.stage AS status', 'ce.position AS last_position');
+
+        $candidates = $q->get();
+        return Inertia::render('Candidates/Index', compact('candidates'));
     }
 
     public function store(Request $request)

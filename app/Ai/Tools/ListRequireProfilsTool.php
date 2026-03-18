@@ -5,8 +5,10 @@ namespace App\Ai\Tools;
 use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Laravel\Ai\Contracts\Tool;
 use Laravel\Ai\Tools\Request;
+use App\Models\Profile;
+use Illuminate\Database\Eloquent\Builder;
 use Stringable;
-
+//PENMDIENTE A TERMINAR CONSULTA Y EL SCHEMA DE RETORNO 
 class ListRequireProfilsTool implements Tool
 {
     /**
@@ -14,7 +16,9 @@ class ListRequireProfilsTool implements Tool
      */
     public function description(): Stringable|string
     {
-        return 'Obtener los perfiles requeridos para un proceso de selección específico, filtrando por nombre del proceso, departamento, habilidades o experiencia requerida. Devuelve una lista de perfiles con sus detalles relevantes.';
+        return 'Obtener los perfiles requeridos para un proceso de selección específico, 
+        filtrando por nombre del proceso, departamento, habilidades o experiencia requerida. 
+        Devuelve una lista de perfiles con sus detalles relevantes.';
     }
 
     /**
@@ -22,6 +26,17 @@ class ListRequireProfilsTool implements Tool
      */
     public function handle(Request $request): Stringable|string
     {
+        /** @var Builder $q */
+
+        $q = Profile::query()->select(
+            'id',
+            'name ',
+            'experience',
+            'departmen t_id ',
+            'age',
+            'skills',
+            'created_at'
+        )->orderByDesc('created_at');
         return 'Pendiente';
     }
 
@@ -31,7 +46,7 @@ class ListRequireProfilsTool implements Tool
     public function schema(JsonSchema $schema): array
     {
         return [
-            'value' => $schema->string()->required(),
+            'profile' => $schema->string()->required(),
         ];
     }
 }

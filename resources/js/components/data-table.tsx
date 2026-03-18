@@ -108,12 +108,12 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 export const schema = z.object({
   id: z.number(),
-  personal_name: z.string(),
-  specialty: z.string(),
-  address: z.string(),
-  interviewee: z.boolean(),
-  approved: z.boolean(),
-  pending: z.boolean(),
+  candidate_name: z.string(),
+  candidate_phone: z.string(),
+  candidate_address: z.string(),
+  candidate_email: z.string(),
+  status: z.boolean(),
+  last_position: z.string(),
 });
 
 //Funcion de Buscar
@@ -142,7 +142,7 @@ function DragHandle({ id }: { id: number }) {
       className="text-muted-foreground size-7 hover:bg-transparent"
     >
       <IconGripVertical className="text-muted-foreground size-3" />
-      <span className="sr-only">Drag to reorder</span>
+      <span className="sr-only">Arrastra para ordenar</span>
     </Button>
   );
 }
@@ -180,7 +180,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "personal_name",
+    accessorKey: "candidate_name",
     header: "Nombre",
     cell: ({ row }) => {
       return <TableCellViewer item={row.original} />;
@@ -188,20 +188,29 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "especialidad",
-    header: "Especialidad",
+    accessorKey: "candidate_phone",
+    header: "Número de Teléfono",
     cell: ({ row }) => (
       <div className="w-32">
-        <Label>{row.original.specialty}</Label>
+        <Label>{row.original.candidate_phone}</Label>
       </div>
     ),
   },
   {
-    accessorKey: "dirección",
+    accessorKey: "candiadate_email",
+    header: "Corréo",
+    cell: ({ row }) => (
+      <div className="w-full">
+        <Label>{row.original.candidate_email}</Label>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "candidate_address",
     header: "Dirección",
     cell: ({ row }) => (
-      <div className="w-32">
-        <Label>{row.original.address}</Label>
+      <div className="w-full">
+        <Label>{row.original.candidate_address}</Label>
       </div>
     ),
   },
@@ -220,44 +229,25 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     ),
   },*/
   {
-    accessorKey: "entrevistado",
-    header: () => <div className="w-full text-start">Entrevistado</div>,
+    accessorKey: "especialidad",
+    header: "Especialidad",
+    cell: ({ row }) => (
+      <div className="w-full">
+        <Label>{row.original.last_position}</Label>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "estado",
+    header: () => <div className="w-full text-right">Estado del Proceso</div>,
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.interviewee === true ? (
+        {row.original.status === true ? (
           <IconCircleCheckFilled className="fill-green-500 dark:fill-green-400" />
         ) : (
           <CircleDashed />
         )}
-        {row.original.interviewee}
-      </Badge>
-    ),
-  },
-  {
-    accessorKey: "aprobado",
-    header: () => <div className="w-full text-start">Aprobado</div>,
-    cell: ({ row }) => (
-      <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.approved === true ? (
-          <IconCircleCheckFilled className="fill-green-500 dark:fill-green-400" />
-        ) : (
-          <CircleDashed />
-        )}
-        {row.original.approved}
-      </Badge>
-    ),
-  },
-  {
-    accessorKey: "pendiente",
-    header: () => <div className="w-full text-start">Pendiente</div>,
-    cell: ({ row }) => (
-      <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.pending === true ? (
-          <IconCircleCheckFilled className="fill-green-500 dark:fill-green-400 " />
-        ) : (
-          <CircleDashed />
-        )}
-        {row.original.pending}
+        {row.original.status}
       </Badge>
     ),
   },
@@ -709,12 +699,12 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
     <Drawer direction={isMobile ? "bottom" : "right"}>
       <DrawerTrigger asChild>
         <Button variant="link" className="text-foreground w-fit px-0 text-left">
-          {item.personal_name}
+          {item.candidate_name}
         </Button>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className="gap-1">
-          <DrawerTitle>{item.personal_name}</DrawerTitle>
+          <DrawerTitle>{item.candidate_name}</DrawerTitle>
           <DrawerDescription>
             Showing total visitors for the last 6 months
           </DrawerDescription>
@@ -781,12 +771,12 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
           <form className="flex flex-col gap-4">
             <div className="flex flex-col gap-3">
               <Label htmlFor="personal_name">Nombre</Label>
-              <Input id="personal_name" defaultValue={item.personal_name} />
+              <Input id="personal_name" defaultValue={item.candidate_name} />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-3">
                 <Label htmlFor="type">Type</Label>
-                <Select defaultValue={item.specialty}>
+                <Select defaultValue={item.last_position}>
                   <SelectTrigger id="type" className="w-full">
                     <SelectValue placeholder={t('select_type')} />
                   </SelectTrigger>
@@ -812,7 +802,7 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
               </div>
               <div className="flex flex-col gap-3">
                 <Label htmlFor="especialidad">Especialidad</Label>
-                <Select defaultValue={item.specialty}>
+                <Select defaultValue={item.last_position}>
                   <SelectTrigger id="especialidad" className="w-full">
                     <SelectValue placeholder="Select a specialty" />
                   </SelectTrigger>
@@ -827,16 +817,16 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-3">
                 <Label htmlFor="target">Target</Label>
-                <Input id="target" defaultValue={item.specialty} />
+                <Input id="target" defaultValue={item.last_position} />
               </div>
               <div className="flex flex-col gap-3">
                 <Label htmlFor="limit">Limit</Label>
-                <Input id="limit" defaultValue={item.specialty} />
+                <Input id="limit" defaultValue={item.last_position} />
               </div>
             </div>
             <div className="flex flex-col gap-3">
               <Label htmlFor="reviewer">Reviewer</Label>
-              <Select defaultValue={item.specialty}>
+              <Select defaultValue={item.last_position}>
                 <SelectTrigger id="reviewer" className="w-full">
                   <SelectValue placeholder="Select a reviewer" />
                 </SelectTrigger>
