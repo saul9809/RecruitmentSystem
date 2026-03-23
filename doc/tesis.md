@@ -1,0 +1,26 @@
+TypeScript
+TypeScript es un lenguaje de programación desarrollado por Microsoft que se define como un superconjunto tipado de JavaScript. Introduce un sistema de tipos estáticos que permite detectar errores en tiempo de compilación, lo cual mejora la calidad, escalabilidad y mantenimiento del código. TypeScript amplía las capacidades de JavaScript mediante anotaciones de tipos, interfaces, módulos y clases, lo que facilita la organización de aplicaciones de mediana y gran escala.
+El código escrito en TypeScript se transpila a JavaScript estándar, lo que garantiza compatibilidad con cualquier navegador. En el sistema de selección y contratación, TypeScript aporta robustez al desarrollo de componentes interactivos, validaciones dinámicas y paneles administrativos implementados en React, reduciendo fallos y mejorando la eficacia del frontend. (TypeScript, 2024)
+
+React
+React es una biblioteca de JavaScript utilizada para construir interfaces de usuario basadas en componentes reutilizables. Su funcionamiento se centra en el uso del Virtual DOM, que permite detectar y actualizar de manera eficiente solo las partes de la interfaz que han cambiado, mejorando así el rendimiento de la aplicación.
+Dentro del sistema de selección y contratación, React facilitó el desarrollo de módulos dinámicos como formularios inteligentes, dashboards administrativos, tablas con filtros de búsqueda, vistas de historial de candidatos y componentes especializados que requieren interacción constante con el servidor. La integración con el Laravel Starter Kit permitió además aprovechar una arquitectura preconfigurada que facilita la autenticación, el manejo de estados y la comunicación entre usuario y servidor. (Laravel, 2024)
+
+Tecnologías y lenguajes de desarrollo del lado del servidor
+PHP
+PHP es un lenguaje de programación interpretado ampliamente utilizado en el desarrollo de aplicaciones web del lado del servidor. Permite procesar solicitudes HTTP, gestionar sesiones, validar información, manipular datos y comunicarse con bases de datos relacionales. PHP es reconocido por su eficiencia, flexibilidad y amplia compatibilidad con diferentes sistemas operativos y servidores web.
+En el sistema de selección y contratación de Cervecería Cubana S.A., PHP constituye la base lógica que permite controlar el flujo de datos entre los usuarios y la base de datos, gestionar la información de los candidatos, registrar los movimientos del proceso y asegurar la correcta ejecución de las operaciones internas del sistema.
+
+Laravel
+Laravel es un framework de PHP diseñado para facilitar el desarrollo de aplicaciones web robustas, seguras y escalables. Basado en el patrón Modelo–Vista–Controlador (MVC), proporciona herramientas esenciales como enrutamiento, middleware, validación de datos, autenticación, controladores REST y un ORM denominado Eloquent, que permite interactuar con la base de datos de manera fluida y estructurada.
+Laravel ofrece una sintaxis clara y expresiva, lo que reduce la complejidad del desarrollo y mejora la mantenibilidad del código. En el sistema de selección y contratación, Laravel permitió gestionar perfiles de candidatos, roles de usuario, procesos de evaluación, reportes estadísticos, historiales del sistema y todos los elementos asociados al flujo de Recursos Humanos. (Laravel, 2024)
+
+Laravel AI SDK
+Laravel AI SDK es un paquete oficial que proporciona una API unificada para interactuar con múltiples proveedores de inteligencia artificial externos, como OpenAI, Anthropic, Gemini, Cohere, Groq y otros. Este SDK no reemplaza a los proveedores de IA, sino que facilita su integración mediante una interfaz coherente y propia del ecosistema Laravel.
+El SDK permite gestionar credenciales, configurar modelos, definir endpoints personalizados y alternar entre proveedores según las necesidades de la aplicación. También soporta funcionalidades como generación de texto, embeddings, análisis semántico, procesamiento de archivos y almacenamiento de conversaciones.
+En el sistema de selección y contratación, Laravel AI SDK se utilizó para procesar información extraída mediante OCR desde currículos, generar interpretaciones automáticas, identificar competencias relevantes y asistir en la clasificación preliminar de candidatos, reduciendo tiempos de revisión y mejorando la eficiencia del Departamento de Recursos Humanos. (Laravel AI SDK, 2024)
+
+Tecnologías de base de datos
+PostgreSQL
+PostgreSQL es un sistema de gestión de bases de datos relacional de código abierto, reconocido por su estabilidad, rendimiento y estricta adherencia a estándares. Está diseñado para manejar grandes volúmenes de información mediante transacciones ACID, lo que garantiza integridad y consistencia incluso bajo alta concurrencia.
+PostgreSQL ofrece capacidades avanzadas como funciones almacenadas, triggers, búsquedas de texto completo, índices especializados y extensiones altamente configurables. En el sistema de selección y contratación, PostgreSQL almacena información de candidatos, experiencias laborales, formación académica, historiales del proceso, resultados generados por la inteligencia artificial y reportes estadísticos para la toma de decisiones estratégicas del Departamento de Recursos Humanos. (Airaldo Clivati, 2021; Darias Pérez, 2021)
