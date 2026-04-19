@@ -6,6 +6,8 @@ use Laravel\Fortify\Features;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\CVProcessController;
+use App\Http\Controllers\CandidateUploadController;
 
 Route::get('/', function () {
     return Inertia::render('welcome', [
@@ -24,6 +26,12 @@ Route::get('dashboard', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/candidates', [CandidateController::class, 'index'])->name('candidates.index');
 });
+// -- CV Process Route --
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/cv-process', [CVProcessController::class, 'index'])->name('cv-process.index');
+});
+// -- Candidate Upload Route --
+Route::post('/cvs/upload', [CandidateUploadController::class, 'upload'])->name('cvs.upload');
 
 // -- Functions Routes --
 Route::post('/invoke-agent', [AgentController::class, 'invoke'])->name('invoke-agent');
