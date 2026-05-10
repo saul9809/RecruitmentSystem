@@ -1,5 +1,11 @@
 import { Link } from '@inertiajs/react';
-import { FileUser, LayoutGrid, FileSymlink } from 'lucide-react';
+import {
+    FileUser,
+    LayoutGrid,
+    FileSymlink,
+    CircleUserRound,
+    Notebook,
+} from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -44,7 +50,17 @@ export function AppSidebar() {
             title: t('cv-process'),
             href: '/cv-process',
             icon: FileSymlink,
-        }
+        },
+        {
+            title: t('user'),
+            href: '/users',
+            icon: CircleUserRound,
+        },
+        {
+            title: t('role'),
+            href: '/roles',
+            icon: Notebook,
+        },
     ];
     return (
         <Sidebar collapsible="icon" variant="inset">

@@ -33,5 +33,9 @@
     "settings": "Settings",
     "profile": "Profile",
     "platform": "Navegation",
-    "cv-process": "Process CVs"
+    "cv-process": "Process CVs",
+    "user":"Users",
+    "user_breadcrumb":"User Management",
+    "user_headline":"User Management",
+    "role":"Roles"
 }

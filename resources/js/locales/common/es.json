@@ -33,5 +33,9 @@
     "settings": "Configuraciones",
     "profile": "Perfil",
     "platform": "Navegación",
-    "cv-process": "Procesar Currículos"
+    "cv-process": "Procesar Currículos",
+    "user":"Usuarios",
+    "user_breadcrumb":"Gestión de Usuarios",
+    "user_headline":"Gestión de Usuarios",
+    "role":"Roles"
 }

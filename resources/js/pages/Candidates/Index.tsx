@@ -13,14 +13,15 @@ interface Candidates {
     status: boolean;
     last_position: string;
 }
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Gestión de Candidatos',
-        href: '/candidates',
-    },
-];
+
 export default function index({ candidates }: { candidates: Candidates[] }) {
-    console.log("Candidates Data", candidates);
+    const breadcrumbs: BreadcrumbItem[] = [
+        {
+            title: 'Gestión de Candidatos',
+            href: '/candidates',
+        },
+    ];
+    console.log('Candidates Data', candidates);
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Candidatos" />

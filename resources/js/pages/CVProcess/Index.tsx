@@ -6,34 +6,37 @@ import { Card } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem } from '@/types';
 
-
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Procesamiento de Currículos',
-        href: '/cv-process',
-    },
-];
-export default function index({ cv_process, result, }: { cv_process?: any[]; result?: any; }) {
-    console.log("CV Process Data", cv_process);
+export default function index({
+    cv_process,
+    result,
+}: {
+    cv_process?: any[];
+    result?: any;
+}) {
+    const breadcrumbs: BreadcrumbItem[] = [
+        {
+            title: 'Procesamiento de Currículos',
+            href: '/cv-process',
+        },
+    ];
+    console.log('CV Process Data', cv_process);
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Procesamiento de Currículos" />
 
-            <div className='flex'>
-                <div className='felx gap-0.5 w-2/3  min-h-screen p-4 rounded-lg'>
+            <div className="flex">
+                <div className="felx min-h-screen w-2/3 gap-0.5 rounded-lg p-4">
                     <DataTableCV data={cv_process || []} />
                 </div>
-                <div className="w-105 bg-[#f1f3f5] min-h-screen p-4 ml-auto rounded-lg">
+                <div className="ml-auto min-h-screen w-105 rounded-lg bg-[#f1f3f5] p-4">
                     <FileUpload06 />
                     {result && (
-                        <Card className="p-4 bg-black text-green-400 text-xs overflow-auto">
-                            <pre>
-                                {JSON.stringify(result, null, 2)}
-                            </pre>
+                        <Card className="overflow-auto bg-black p-4 text-xs text-green-400">
+                            <pre>{JSON.stringify(result, null, 2)}</pre>
                         </Card>
                     )}
                 </div>
             </div>
-        </AppLayout >
+        </AppLayout>
     );
 }
