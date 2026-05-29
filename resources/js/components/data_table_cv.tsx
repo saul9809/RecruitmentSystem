@@ -8,15 +8,15 @@ import {
     useSensors,
     type DragEndEvent,
     type UniqueIdentifier,
-} from "@dnd-kit/core";
-import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+} from '@dnd-kit/core';
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import {
     arrayMove,
     SortableContext,
     useSortable,
     verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import {
     IconChevronLeft,
     IconChevronRight,
@@ -26,7 +26,7 @@ import {
     IconDotsVertical,
     IconGripVertical,
     IconTrendingUp,
-} from "@tabler/icons-react";
+} from '@tabler/icons-react';
 import {
     flexRender,
     getCoreRowModel,
@@ -41,23 +41,22 @@ import {
     type Row,
     type SortingState,
     type VisibilityState,
-} from "@tanstack/react-table";
-import { t } from "i18next";
-import { CircleDashed, Search } from "lucide-react";
-import * as React from "react";
+} from '@tanstack/react-table';
+import { CircleDashed, Search } from 'lucide-react';
+import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
-import { z } from "zod";
+import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
+import { z } from 'zod';
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
     ChartContainer,
     ChartTooltip,
     ChartTooltipContent,
     type ChartConfig,
-} from "@/components/ui/chart";
-import { Checkbox } from "@/components/ui/checkbox";
+} from '@/components/ui/chart';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
     Drawer,
     DrawerClose,
@@ -67,24 +66,24 @@ import {
     DrawerHeader,
     DrawerTitle,
     DrawerTrigger,
-} from "@/components/ui/drawer";
+} from '@/components/ui/drawer';
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
+} from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
 // import NewPersonal from "@/app/staff/add-personal-form";
 //Importando el dialogo
 
@@ -95,9 +94,9 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useIsMobile } from "@/hooks/use-mobile";
+} from '@/components/ui/table';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export const schema = z.object({
     id: z.number(),
@@ -115,13 +114,18 @@ function SearchInput() {
     //Pendiete a logica de buscar
     return (
         <div className="relative w-full max-w-sm">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input type="search" placeholder={`${t('search')} Personal...`} className="pl-9" />
+            <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+                type="search"
+                placeholder={`${t('search')} Personal...`}
+                className="pl-9"
+            />
         </div>
     );
 }
 
 function DragHandle({ id }: { id: number }) {
+    const { t } = useTranslation();
     const { attributes, listeners } = useSortable({
         id,
     });
@@ -132,30 +136,32 @@ function DragHandle({ id }: { id: number }) {
             {...listeners}
             variant="ghost"
             size="icon"
-            className="text-muted-foreground size-7 hover:bg-transparent"
+            className="size-7 text-muted-foreground hover:bg-transparent"
         >
-            <IconGripVertical className="text-muted-foreground size-3" />
-            <span className="sr-only">Arrastra para ordenar</span>
+            <IconGripVertical className="size-3 text-muted-foreground" />
+            <span className="sr-only">{t('draw_to order')}</span>
         </Button>
     );
 }
 //Mover manualmente las filas sosteniendo el drag handle - Columnas de la tabla
 const columns: ColumnDef<z.infer<typeof schema>>[] = [
     {
-        id: "drag",
+        id: 'drag',
         header: () => null,
         cell: ({ row }) => <DragHandle id={row.original.id} />,
     },
     {
-        id: "select",
+        id: 'select',
         header: ({ table }) => (
             <div className="flex items-center justify-center">
                 <Checkbox
                     checked={
                         table.getIsAllPageRowsSelected() ||
-                        (table.getIsSomePageRowsSelected() && "indeterminate")
+                        (table.getIsSomePageRowsSelected() && 'indeterminate')
                     }
-                    onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+                    onCheckedChange={(value) =>
+                        table.toggleAllPageRowsSelected(!!value)
+                    }
                     aria-label="Select all"
                 />
             </div>
@@ -173,16 +179,16 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
         enableHiding: false,
     },
     {
-        accessorKey: "candidate_name",
-        header: "Nombre",
+        accessorKey: 'candidate_name',
+        header: 'Nombre',
         cell: ({ row }) => {
             return <TableCellViewer item={row.original} />;
         },
         enableHiding: false,
     },
     {
-        accessorKey: "candidate_phone",
-        header: "Número de Teléfono",
+        accessorKey: 'candidate_phone',
+        header: 'Número de Teléfono',
         cell: ({ row }) => (
             <div className="w-32">
                 <Label>{row.original.candidate_phone}</Label>
@@ -190,8 +196,8 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
         ),
     },
     {
-        accessorKey: "candiadate_email",
-        header: "Corréo",
+        accessorKey: 'candiadate_email',
+        header: 'Corréo',
         cell: ({ row }) => (
             <div className="w-full">
                 <Label>{row.original.candidate_email}</Label>
@@ -199,8 +205,8 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
         ),
     },
     {
-        accessorKey: "candidate_address",
-        header: "Dirección",
+        accessorKey: 'candidate_address',
+        header: 'Dirección',
         cell: ({ row }) => (
             <div className="w-full">
                 <Label>{row.original.candidate_address}</Label>
@@ -222,8 +228,8 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
       ),
     },*/
     {
-        accessorKey: "especialidad",
-        header: "Especialidad",
+        accessorKey: 'especialidad',
+        header: 'Especialidad',
         cell: ({ row }) => (
             <div className="w-full">
                 <Label>{row.original.last_position}</Label>
@@ -231,10 +237,12 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
         ),
     },
     {
-        accessorKey: "estado",
-        header: () => <div className="w-full text-right">Estado del Proceso</div>,
+        accessorKey: 'estado',
+        header: () => (
+            <div className="w-full text-right">Estado del Proceso</div>
+        ),
         cell: ({ row }) => (
-            <Badge variant="outline" className="text-muted-foreground px-1.5">
+            <Badge variant="outline" className="px-1.5 text-muted-foreground">
                 {row.original.status === true ? (
                     <IconCircleCheckFilled className="fill-green-500 dark:fill-green-400" />
                 ) : (
@@ -285,13 +293,13 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
 
     {
         //Dropdown para acciones adicionales 3 puntos
-        id: "actions",
+        id: 'actions',
         cell: () => (
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button
                         variant="ghost"
-                        className="data-[state=open]:bg-muted text-muted-foreground flex size-8"
+                        className="flex size-8 text-muted-foreground data-[state=open]:bg-muted"
                         size="icon"
                     >
                         <IconDotsVertical />
@@ -304,7 +312,9 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
                     {/*Pendiente logica Exportar a un archivo CSV o Excel*/}
                     <DropdownMenuItem>Exportar a Excel</DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem variant="destructive">Eliminar</DropdownMenuItem>
+                    <DropdownMenuItem variant="destructive">
+                        Eliminar
+                    </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
         ),
@@ -318,7 +328,7 @@ function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
 
     return (
         <TableRow
-            data-state={row.getIsSelected() && "selected"}
+            data-state={row.getIsSelected() && 'selected'}
             data-dragging={isDragging}
             ref={setNodeRef}
             className="relative z-0 data-[dragging=true]:z-10 data-[dragging=true]:opacity-80"
@@ -345,9 +355,8 @@ export function DataTableCV({
     const [rowSelection, setRowSelection] = React.useState({});
     const [columnVisibility, setColumnVisibility] =
         React.useState<VisibilityState>({});
-    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-        []
-    );
+    const [columnFilters, setColumnFilters] =
+        React.useState<ColumnFiltersState>([]);
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [pagination, setPagination] = React.useState({
         pageIndex: 0,
@@ -357,12 +366,12 @@ export function DataTableCV({
     const sensors = useSensors(
         useSensor(MouseSensor, {}),
         useSensor(TouchSensor, {}),
-        useSensor(KeyboardSensor, {})
+        useSensor(KeyboardSensor, {}),
     );
 
     const dataIds = React.useMemo<UniqueIdentifier[]>(
         () => data?.map(({ id }) => id) || [],
-        [data]
+        [data],
     );
 
     // eslint-disable-next-line react-hooks/incompatible-library
@@ -401,6 +410,7 @@ export function DataTableCV({
             });
         }
     }
+    const { t } = useTranslation('table');
     //Filtro de estados del personal
     return (
         <Tabs
@@ -411,7 +421,7 @@ export function DataTableCV({
                 <Label htmlFor="view-selector" className="sr-only">
                     View
                 </Label>
-                <div className="flex items-left gap-2">
+                <div className="items-left flex gap-2">
                     <SearchInput />
                 </div>
                 <Select defaultValue="outline">
@@ -423,13 +433,19 @@ export function DataTableCV({
                     </SelectTrigger>
                     <SelectContent>
                         <SelectItem value="outline">{t('general')}</SelectItem>
-                        <SelectItem value="past-performance">{t('interviewed')}</SelectItem>
-                        <SelectItem value="key-personnel">{t('approved')}</SelectItem>
-                        <SelectItem value="focus-documents">{t('pending_analysis')}</SelectItem>
+                        <SelectItem value="past-performance">
+                            {t('interviewed')}
+                        </SelectItem>
+                        <SelectItem value="key-personnel">
+                            {t('approved')}
+                        </SelectItem>
+                        <SelectItem value="focus-documents">
+                            {t('pending_analysis')}
+                        </SelectItem>
                     </SelectContent>
                 </Select>
                 {/*Dropdown para estados*/}
-                <TabsList className="**:data-[slot=badge]:bg-muted-foreground/30 hidden **:data-[slot=badge]:size-5 **:data-[slot=badge]:rounded-full **:data-[slot=badge]:px-1 @4xl/main:flex">
+                <TabsList className="hidden **:data-[slot=badge]:size-5 **:data-[slot=badge]:rounded-full **:data-[slot=badge]:bg-muted-foreground/30 **:data-[slot=badge]:px-1 @4xl/main:flex">
                     <TabsTrigger value="outline">{t('general')}</TabsTrigger>
                     <TabsTrigger value="past-performance">
                         {t('interviewed')} <Badge variant="secondary">p</Badge>
@@ -440,13 +456,14 @@ export function DataTableCV({
                         {/*Pendiente a logica de conteo*/}
                     </TabsTrigger>
                     <TabsTrigger value="focus-documents">
-                        {t('pending_analysis')} <Badge variant="secondary">p</Badge>
+                        {t('pending_analysis')}{' '}
+                        <Badge variant="secondary">p</Badge>
                         {/*Pendiente a logica de conteo*/}
                     </TabsTrigger>
                 </TabsList>
 
                 <div className="flex items-center gap-2">
-                    {  /*<NewPersonal />
+                    {/*<NewPersonal />
                     <NewPersonal />
                     <NewPersonal />*/}
                 </div>
@@ -464,18 +481,23 @@ export function DataTableCV({
                         id={sortableId}
                     >
                         <Table>
-                            <TableHeader className="bg-muted sticky top-0 z-10">
+                            <TableHeader className="sticky top-0 z-10 bg-muted">
                                 {table.getHeaderGroups().map((headerGroup) => (
                                     <TableRow key={headerGroup.id}>
                                         {headerGroup.headers.map((header) => {
                                             return (
-                                                <TableHead key={header.id} colSpan={header.colSpan}>
+                                                <TableHead
+                                                    key={header.id}
+                                                    colSpan={header.colSpan}
+                                                >
                                                     {header.isPlaceholder
                                                         ? null
                                                         : flexRender(
-                                                            header.column.columnDef.header,
-                                                            header.getContext()
-                                                        )}
+                                                              header.column
+                                                                  .columnDef
+                                                                  .header,
+                                                              header.getContext(),
+                                                          )}
                                                 </TableHead>
                                             );
                                         })}
@@ -489,7 +511,10 @@ export function DataTableCV({
                                         strategy={verticalListSortingStrategy}
                                     >
                                         {table.getRowModel().rows.map((row) => (
-                                            <DraggableRow key={row.id} row={row} />
+                                            <DraggableRow
+                                                key={row.id}
+                                                row={row}
+                                            />
                                         ))}
                                     </SortableContext>
                                 ) : (
@@ -507,13 +532,17 @@ export function DataTableCV({
                     </DndContext>
                 </div>
                 <div className="flex items-center justify-between px-4">
-                    <div className="text-muted-foreground hidden flex-1 text-sm lg:flex">
-                        {table.getFilteredSelectedRowModel().rows.length} of{" "}
-                        {table.getFilteredRowModel().rows.length} row(s) selected.
+                    <div className="hidden flex-1 text-sm text-muted-foreground lg:flex">
+                        {table.getFilteredSelectedRowModel().rows.length} of{' '}
+                        {table.getFilteredRowModel().rows.length} row(s)
+                        selected.
                     </div>
                     <div className="flex w-full items-center gap-8 lg:w-fit">
                         <div className="hidden items-center gap-2 lg:flex">
-                            <Label htmlFor="rows-per-page" className="text-sm font-medium">
+                            <Label
+                                htmlFor="rows-per-page"
+                                className="text-sm font-medium"
+                            >
                                 Filas por página
                             </Label>
                             <Select
@@ -522,14 +551,22 @@ export function DataTableCV({
                                     table.setPageSize(Number(value));
                                 }}
                             >
-                                <SelectTrigger className="w-20" id="rows-per-page">
+                                <SelectTrigger
+                                    className="w-20"
+                                    id="rows-per-page"
+                                >
                                     <SelectValue
-                                        placeholder={table.getState().pagination.pageSize}
+                                        placeholder={
+                                            table.getState().pagination.pageSize
+                                        }
                                     />
                                 </SelectTrigger>
                                 <SelectContent side="top">
                                     {[10, 20, 30, 40, 50].map((pageSize) => (
-                                        <SelectItem key={pageSize} value={`${pageSize}`}>
+                                        <SelectItem
+                                            key={pageSize}
+                                            value={`${pageSize}`}
+                                        >
                                             {pageSize}
                                         </SelectItem>
                                     ))}
@@ -537,7 +574,7 @@ export function DataTableCV({
                             </Select>
                         </div>
                         <div className="flex w-fit items-center justify-center text-sm font-medium">
-                            Page {table.getState().pagination.pageIndex + 1} of{" "}
+                            Page {table.getState().pagination.pageIndex + 1} of{' '}
                             {table.getPageCount()}
                         </div>
                         <div className="ml-auto flex items-center gap-2 lg:ml-0">
@@ -547,7 +584,9 @@ export function DataTableCV({
                                 onClick={() => table.setPageIndex(0)}
                                 disabled={!table.getCanPreviousPage()}
                             >
-                                <span className="sr-only">Ir a la primera página</span>
+                                <span className="sr-only">
+                                    Ir a la primera página
+                                </span>
                                 <IconChevronsLeft />
                             </Button>
                             <Button
@@ -557,7 +596,9 @@ export function DataTableCV({
                                 onClick={() => table.previousPage()}
                                 disabled={!table.getCanPreviousPage()}
                             >
-                                <span className="sr-only">Ir a la página anterior</span>
+                                <span className="sr-only">
+                                    Ir a la página anterior
+                                </span>
                                 <IconChevronLeft />
                             </Button>
                             <Button
@@ -567,17 +608,23 @@ export function DataTableCV({
                                 onClick={() => table.nextPage()}
                                 disabled={!table.getCanNextPage()}
                             >
-                                <span className="sr-only">Ir a la siguiente página</span>
+                                <span className="sr-only">
+                                    Ir a la siguiente página
+                                </span>
                                 <IconChevronRight />
                             </Button>
                             <Button
                                 variant="outline"
                                 className="hidden size-8 lg:flex"
                                 size="icon"
-                                onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+                                onClick={() =>
+                                    table.setPageIndex(table.getPageCount() - 1)
+                                }
                                 disabled={!table.getCanNextPage()}
                             >
-                                <span className="sr-only">Ir a la última página</span>
+                                <span className="sr-only">
+                                    Ir a la última página
+                                </span>
                                 <IconChevronsRight />
                             </Button>
                         </div>
@@ -590,7 +637,10 @@ export function DataTableCV({
             >
                 <div className="aspect-video w-full flex-1 rounded-lg border border-dashed"></div>
             </TabsContent>
-            <TabsContent value="key-personnel" className="flex flex-col px-4 lg:px-6">
+            <TabsContent
+                value="key-personnel"
+                className="flex flex-col px-4 lg:px-6"
+            >
                 <div className="aspect-video w-full flex-1 rounded-lg border border-dashed"></div>
             </TabsContent>
             <TabsContent
@@ -604,32 +654,36 @@ export function DataTableCV({
 }
 //Dashboard del card expandible - Pendiente a cambiar por foto del personal
 const chartData = [
-    { month: "January", desktop: 186, mobile: 80 },
-    { month: "February", desktop: 305, mobile: 200 },
-    { month: "March", desktop: 237, mobile: 120 },
-    { month: "April", desktop: 73, mobile: 190 },
-    { month: "May", desktop: 209, mobile: 130 },
-    { month: "June", desktop: 214, mobile: 140 },
+    { month: 'January', desktop: 186, mobile: 80 },
+    { month: 'February', desktop: 305, mobile: 200 },
+    { month: 'March', desktop: 237, mobile: 120 },
+    { month: 'April', desktop: 73, mobile: 190 },
+    { month: 'May', desktop: 209, mobile: 130 },
+    { month: 'June', desktop: 214, mobile: 140 },
 ];
 //Configuraciones del chart del card Expandible que debo cambiar por una foto
 const chartConfig = {
     desktop: {
-        label: "Desktop",
-        color: "var(--primary)",
+        label: 'Desktop',
+        color: 'var(--primary)',
     },
     mobile: {
-        label: "Mobile",
-        color: "var(--primary)",
+        label: 'Mobile',
+        color: 'var(--primary)',
     },
 } satisfies ChartConfig;
 //Datos del form Drawer - Card Expandible
 function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
     const isMobile = useIsMobile();
+    const { t } = useTranslation('table');
 
     return (
-        <Drawer direction={isMobile ? "bottom" : "right"}>
+        <Drawer direction={isMobile ? 'bottom' : 'right'}>
             <DrawerTrigger asChild>
-                <Button variant="link" className="text-foreground w-fit px-0 text-left">
+                <Button
+                    variant="link"
+                    className="w-fit px-0 text-left text-foreground"
+                >
                     {item.candidate_name}
                 </Button>
             </DrawerTrigger>
@@ -658,12 +712,16 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
                                         tickLine={false}
                                         axisLine={false}
                                         tickMargin={8}
-                                        tickFormatter={(value) => value.slice(0, 3)}
+                                        tickFormatter={(value) =>
+                                            value.slice(0, 3)
+                                        }
                                         hide
                                     />
                                     <ChartTooltip
                                         cursor={false}
-                                        content={<ChartTooltipContent indicator="dot" />}
+                                        content={
+                                            <ChartTooltipContent indicator="dot" />
+                                        }
                                     />
                                     <Area
                                         dataKey="mobile"
@@ -686,13 +744,14 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
                             <Separator />
                             <div className="grid gap-2">
                                 <div className="flex gap-2 leading-none font-medium">
-                                    Trending up by 5.2% this month{" "}
+                                    Trending up by 5.2% this month{' '}
                                     <IconTrendingUp className="size-4" />
                                 </div>
                                 <div className="text-muted-foreground">
-                                    Showing total visitors for the last 6 months. This is just
-                                    some random text to test the layout. It spans multiple lines
-                                    and should wrap around.
+                                    Showing total visitors for the last 6
+                                    months. This is just some random text to
+                                    test the layout. It spans multiple lines and
+                                    should wrap around.
                                 </div>
                             </div>
                             <Separator />
@@ -702,14 +761,19 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
                     <form className="flex flex-col gap-4">
                         <div className="flex flex-col gap-3">
                             <Label htmlFor="personal_name">Nombre</Label>
-                            <Input id="personal_name" defaultValue={item.candidate_name} />
+                            <Input
+                                id="personal_name"
+                                defaultValue={item.candidate_name}
+                            />
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             <div className="flex flex-col gap-3">
                                 <Label htmlFor="type">Type</Label>
                                 <Select defaultValue={item.last_position}>
                                     <SelectTrigger id="type" className="w-full">
-                                        <SelectValue placeholder={t('select_type')} />
+                                        <SelectValue
+                                            placeholder={t('select_type')}
+                                        />
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="Table of Contents">
@@ -721,26 +785,45 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
                                         <SelectItem value="Technical Approach">
                                             Technical Approach
                                         </SelectItem>
-                                        <SelectItem value="Design">Design</SelectItem>
-                                        <SelectItem value="Capabilities">Capabilities</SelectItem>
+                                        <SelectItem value="Design">
+                                            Design
+                                        </SelectItem>
+                                        <SelectItem value="Capabilities">
+                                            Capabilities
+                                        </SelectItem>
                                         <SelectItem value="Focus Documents">
                                             Focus Documents
                                         </SelectItem>
-                                        <SelectItem value="Narrative">Narrative</SelectItem>
-                                        <SelectItem value="Cover Page">Cover Page</SelectItem>
+                                        <SelectItem value="Narrative">
+                                            Narrative
+                                        </SelectItem>
+                                        <SelectItem value="Cover Page">
+                                            Cover Page
+                                        </SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
                             <div className="flex flex-col gap-3">
-                                <Label htmlFor="especialidad">Especialidad</Label>
+                                <Label htmlFor="especialidad">
+                                    Especialidad
+                                </Label>
                                 <Select defaultValue={item.last_position}>
-                                    <SelectTrigger id="especialidad" className="w-full">
+                                    <SelectTrigger
+                                        id="especialidad"
+                                        className="w-full"
+                                    >
                                         <SelectValue placeholder="Select a specialty" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="Done">Done</SelectItem>
-                                        <SelectItem value="In Progress">In Progress</SelectItem>
-                                        <SelectItem value="Not Started">Not Started</SelectItem>
+                                        <SelectItem value="Done">
+                                            Done
+                                        </SelectItem>
+                                        <SelectItem value="In Progress">
+                                            In Progress
+                                        </SelectItem>
+                                        <SelectItem value="Not Started">
+                                            Not Started
+                                        </SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -748,11 +831,17 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
                         <div className="grid grid-cols-2 gap-4">
                             <div className="flex flex-col gap-3">
                                 <Label htmlFor="target">Target</Label>
-                                <Input id="target" defaultValue={item.last_position} />
+                                <Input
+                                    id="target"
+                                    defaultValue={item.last_position}
+                                />
                             </div>
                             <div className="flex flex-col gap-3">
                                 <Label htmlFor="limit">Limit</Label>
-                                <Input id="limit" defaultValue={item.last_position} />
+                                <Input
+                                    id="limit"
+                                    defaultValue={item.last_position}
+                                />
                             </div>
                         </div>
                         <div className="flex flex-col gap-3">
@@ -762,11 +851,15 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
                                     <SelectValue placeholder="Select a reviewer" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="Eddie Lake">Eddie Lake</SelectItem>
+                                    <SelectItem value="Eddie Lake">
+                                        Eddie Lake
+                                    </SelectItem>
                                     <SelectItem value="Jamik Tashpulatov">
                                         Jamik Tashpulatov
                                     </SelectItem>
-                                    <SelectItem value="Emily Whalen">Emily Whalen</SelectItem>
+                                    <SelectItem value="Emily Whalen">
+                                        Emily Whalen
+                                    </SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
