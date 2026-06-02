@@ -35,7 +35,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // -- Candidate Upload Route --
 Route::post('/cvs/upload', [CandidateUploadController::class, 'upload'])->name('cvs.upload');
 
-// -- Functions Routes --
+// -- AI Routes --
 Route::post('/invoke-agent', [AgentController::class, 'invoke'])->name('invoke-agent');
 
 // -- Locale Route --

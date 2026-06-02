@@ -2,61 +2,67 @@
 
 namespace App\Ai\Agents;
 
-use App\Ai\Tools\FilterCandiadateByDataTool;
+use App\Ai\Tools\CandidateRankingTool;
+use App\Ai\Tools\FilterCandidateByDataTool;
+use App\Ai\Tools\GetProfileRequirementsTool;
 use App\Ai\Tools\ListStaticProfilsTool;
-use App\Ai\Tools\ListRequireProfilsTool;
-use App\Models\User;
-use Laravel\Ai\Concerns\RemembersConversations;
 use Laravel\Ai\Contracts\Agent;
 use Laravel\Ai\Contracts\Conversational;
 use Laravel\Ai\Contracts\HasTools;
-use Laravel\Ai\Contracts\Tool;
 use Laravel\Ai\Promptable;
 use Stringable;
 
 class RecruitmentAssistant implements Agent, Conversational, HasTools
 {
-    use Promptable, RemembersConversations;
+    use Promptable;
 
-    public function __construct(public User $user)
-    {
-        $this->user = $user;
-    }
-
-    /**
-     * Get the instructions that the agent should follow.
-     */
     public function instructions(): Stringable|string
     {
-        return 'Eres un Asistente Inteligente de Reclutamiento integrado en un sistema Laravel. 
-Analizas candidatos en base a los perfiles requeridos usando exclusivamente datos obtenidos de la base de datos o de las herramientas disponibles. 
-Siempre que necesites información sobre candidatos, perfiles, experiencia o ranking, debes llamar a las tools correspondientes sin inventar datos. 
-Cuando el reclutador solicite un reporte, lista o resumen de los candidatos más compatibles, usa la herramienta de ranking y devuelve solo los N mejores candidatos según el score obtenido, explicando brevemente el porqué. 
-Si falta información para responder, indícalo de forma clara y sugiere cómo obtenerla mediante tools. 
-Responde siempre con un tono profesional, humano, empatico y amigable, claro y orientado a apoyar decisiones de selección real. 
-Nunca generes información no respaldada por los datos del sistema.
-  ';
+        return 'Eres un Asistente Inteligente de Reclutamiento y Selección.
+
+**COMPORTAMIENTO GENERAL:**
+- Responde a saludos como "hola", "buenos días", etc. de forma amigable y muy empática
+- Preséntate brevemente cuando te saluden
+- Puedes mantener conversaciones casuales sin usar herramientas
+- Siempre ofrece ayuda sobre las funcionalidades de reclutamiento disponibles
+
+**ROL PRINCIPAL:**
+Analizas candidatos y generas rankings de compatibilidad basados en los perfiles requeridos, utilizando exclusivamente datos de la base de datos y herramientas del sistema.
+
+**FUNCIONALIDAD CLAVE - ANÁLISIS DE RANKING:**
+Cuando el reclutador solicite listar candidatos, DEBES:
+1. Usar las herramientas  para calcular el porcentaje de compatibilidad
+2. Devolver EXACTAMENTE la cantidad de candidatos que el reclutador especifique
+3. Mostrar para cada candidato: nombre, skills clave y PORCENTAJE DE COMPATIBILIDAD
+4. Ordenar de mayor a menor según el score de compatibilidad
+5. Explicar BREVEMENTE por qué cada candidato obtuvo ese porcentaje
+
+
+**REGLAS ESTRICTAS:**
+- Siempre llama a las tools para obtener datos reales, NUNCA inventes información
+- Los porcentajes y compatibilidad debes consultar la base de datos y calcular segun el perfil
+ requerido los candidatos que son compatibles por porciento de coincidencia
+- Si falta información, indícalo claramente
+- Para conversaciones casuales, NO uses herramientas, responde naturalmente y de forma empática
+
+**TONO Y ESTILO:**
+- Profesional pero cercano y empático
+- Claro y estructurado
+- Amigable en saludos y conversación casual';
     }
 
-    /**
-     * Get the list of messages comprising the conversation so far.
-     */
     public function messages(): iterable
     {
         return [];
     }
 
-    /**
-     * Get the tools available to the agent.
-     *
-     * @return Tool[]
-     */
     public function tools(): iterable
     {
         return [
-            new FilterCandiadateByDataTool,
-            new ListStaticProfilsTool,
-            new ListRequireProfilsTool,
+            app(CandidateRankingTool::class),
+            app(FilterCandidateByDataTool::class),
+            app(ListStaticProfilsTool::class),
+            app(GetProfileRequirementsTool::class),
         ];
     }
 }

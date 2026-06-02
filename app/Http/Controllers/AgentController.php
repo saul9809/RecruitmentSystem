@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Ai\Agents\RecruitmentAssistant;
+use Illuminate\Http\Request;
 
 class AgentController extends Controller
 {

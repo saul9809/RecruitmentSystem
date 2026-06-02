@@ -2,14 +2,15 @@
 
 namespace App\Ai\Tools;
 
+use App\Models\Profile;
 use Illuminate\Contracts\JsonSchema\JsonSchema;
+use Illuminate\Database\Eloquent\Builder;
 use Laravel\Ai\Contracts\Tool;
 use Laravel\Ai\Tools\Request;
-use App\Models\Profile;
-use Illuminate\Database\Eloquent\Builder;
 use Stringable;
-//PENMDIENTE A TERMINAR CONSULTA Y EL SCHEMA DE RETORNO 
-class ListRequireProfilsTool implements Tool
+
+// PENMDIENTE A TERMINAR CONSULTA Y EL SCHEMA DE RETORNO
+class GetProfileRequirementsTool implements Tool
 {
     /**
      * Get the description of the tool's purpose.
@@ -27,7 +28,6 @@ class ListRequireProfilsTool implements Tool
     public function handle(Request $request): Stringable|string
     {
         /** @var Builder $q */
-
         $q = Profile::query()->select(
             'id',
             'name ',
@@ -37,6 +37,7 @@ class ListRequireProfilsTool implements Tool
             'skills',
             'created_at'
         )->orderByDesc('created_at');
+
         return 'Pendiente';
     }
 

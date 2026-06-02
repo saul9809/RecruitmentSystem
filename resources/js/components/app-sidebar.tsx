@@ -3,8 +3,8 @@ import {
     FileUser,
     LayoutGrid,
     FileSymlink,
-    CircleUserRound,
-    Notebook,
+    /*CircleUserRound,
+    Notebook,*/
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { NavFooter } from '@/components/nav-footer';
@@ -51,7 +51,7 @@ export function AppSidebar() {
             href: '/cv-process',
             icon: FileSymlink,
         },
-        {
+        /*{
             title: t('user'),
             href: '/users',
             icon: CircleUserRound,
@@ -60,7 +60,7 @@ export function AppSidebar() {
             title: t('role'),
             href: '/roles',
             icon: Notebook,
-        },
+        },*/
     ];
     return (
         <Sidebar collapsible="icon" variant="inset">

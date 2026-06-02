@@ -24,18 +24,22 @@ class Candidate extends Model
             ->withPivot(['level', 'origin'])
             ->withTimestamps();
     }
+
     public function experiences()
     {
         return $this->hasMany(CandidateExperience::class);
     }
+
     public function educations()
     {
         return $this->hasMany(CandidateEducation::class);
     }
+
     public function stageHistory()
     {
-        return $this->belongsToMany(CandidateStageHistory::class);
+        return $this->hasMany(CandidateStageHistory::class);
     }
+
     public function profiles()
     {
         return $this->belongsToMany(Profile::class, 'candidate_profile_score')

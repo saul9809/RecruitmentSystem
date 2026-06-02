@@ -1,20 +1,3 @@
-¡Perfecto Saúl!
-Ya guardé esta conversación como referencia, así que cuando me digas “vamos a empezar a trabajar en esto”, continuaré exactamente desde este punto, con toda la arquitectura y decisiones que definimos hoy.
-Cuando estés listo para avanzar con:
-
-el endpoint para recibir el JSON de OpenClaw/Northflak,
-el CVSyncService,
-la integración con Groq + Laravel AI SDK,
-o cualquier parte del pipeline…
-
-solo dímelo y seguimos donde quedamos. 🚀
-
-use App\Http\Controllers\AgentController;
-
-Route::post('/invoke-agent', [AgentController::class, 'invoke'])
-    ->middleware(['web']) // Necesario para CSRF
-    ->name('agent.invoke');
-
 <?php
 
 namespace App\Ai\Tools;
@@ -32,8 +15,8 @@ class CandidateRankingTool implements Tool
     {
         return 'Analiza y lista candidatos con mayor compatibilidad con el perfil requerido.
         Calcula un score de compatibilidad basado en la experiencia, educación, especialidad (skills),
-        dirección, estado y rango de edad en comparación con los perfiles. Emite un criterio de 
-        ranking claro y justificado para cada candidato. Soporta limit y agrupación básica.';
+        dirección, estado y rango de edad en comparación con los perfiles. 
+        Soporta limit y agrupación básica.';
     }
 
     public function handle(Request $request): Stringable|string
@@ -229,8 +212,8 @@ class CandidateRankingTool implements Tool
             'doctorado' => 100, 'maestría' => 90, 'maestria' => 90,
             'ingeniería' => 80, 'ingenieria' => 80, 'licenciatura' => 75,
             'universitario' => 60, 'tecnólogo' => 50, 'tecnologo' => 50,
-            'técnico' => 40, 'tecnico' => 40, 'preuniversitario' => 10, 'pre' => 10,
-            'secundaria' => 5,
+            'técnico' => 40, 'tecnico' => 40, 'bachillerato' => 30,
+            'secundaria' => 20,
         ];
 
         foreach ($levels as $keyword => $score) {
